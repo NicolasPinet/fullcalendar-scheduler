@@ -24,7 +24,7 @@ class ResourceManager extends Class
 
 
 	###
-	Like fetchResources, but won't refetch if already fetched (regardless of start/end).
+	#Like fetchResources, but won't refetch if already fetched (regardless of start/end).
 	###
 	getResources: (start, end) -> # returns a promise
 		@fetching or @fetchResources(start, end)
@@ -82,7 +82,7 @@ class ResourceManager extends Class
 						requestParams[options.timezoneParam] = options.timezone
 
 				$.ajax(
-					$.extend(
+					$.extend(true,
 						{ data: requestParams }
 						ResourceManager.ajaxDefaults
 						source

@@ -98,7 +98,7 @@ class ResourceRow extends EventRow
 
 			tr.append(td)
 
-		tr.attr('data-resource-id', resource.id)
+		tr.attr('data-resource-id', resource.id).attr('class', resource.TypePopulation);
 
 
 	###

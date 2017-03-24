@@ -52,10 +52,6 @@ View::handleDate = (date, isReset) ->
 
 
 View::onDateRender = ->
-	processLicenseKey(
-		@calendar.options.schedulerLicenseKey
-		@el # container element
-	)
 	origOnDateRender.apply(this, arguments) # fire public handlers
 
 
