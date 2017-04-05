@@ -3,7 +3,6 @@
 
 origSetElement = View::setElement
 origRemoveElement = View::removeElement
-origHandleDate = View::handleDate
 origOnDateRender = View::onDateRender
 origExecuteEventsRender = View::executeEventsRender
 
@@ -38,14 +37,14 @@ View::removeElement = ->
 ###
 Replace the supermethod's logic. Important to unbind/bind *events* (TODO: make more DRY)
 ###
-View::handleDate = (date, isReset) ->
+View::handleDate = (dateProfile) ->
 	resourcesNeedDate = @opt('refetchResourcesOnNavigate')
 
 	@unbindEvents()
 	if resourcesNeedDate
 		@unbindResources({ skipUnrender: true }) # keep same resources showing
 
-	@requestDateRender(date).then =>
+	@requestDateRender(dateProfile).then =>
 		@bindEvents()
 		if resourcesNeedDate
 			@bindResources(true) # forceInitialFetch=true
@@ -179,7 +178,7 @@ this function expects the view's start/end to be already populated.
 ###
 View::requestResources = ->
 	if @opt('refetchResourcesOnNavigate')
-		@calendar.resourceManager.getResources(@start, @end)
+		@calendar.resourceManager.getResources(@activeRange.start, @activeRange.end)
 	else
 		@calendar.resourceManager.getResources()
 
@@ -190,7 +189,7 @@ this function expects the view's start/end to be already populated.
 ###
 View::fetchResources = ->
 	if @opt('refetchResourcesOnNavigate')
-		@calendar.resourceManager.fetchResources(@start, @end)
+		@calendar.resourceManager.fetchResources(@activeRange.start, @activeRange.end)
 	else
 		@calendar.resourceManager.fetchResources()
 

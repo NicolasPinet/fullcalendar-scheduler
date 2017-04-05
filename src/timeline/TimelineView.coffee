@@ -3,20 +3,25 @@ class TimelineView extends View
 
 	timeGrid: null # TODO: rename
 	isScrolled: false
+	usesMinMaxTime: true # indicates that minTime/maxTime affects rendering
 
 
 	initialize: ->
 		@timeGrid = @instantiateGrid()
-		@intervalDuration = @timeGrid.duration
 
 
 	instantiateGrid: ->
 		new TimelineGrid(this)
 
 
-	setRange: (range) ->
+	setDateProfile: (dateProfile) ->
 		super
-		@timeGrid.setRange(range)
+		@timeGrid.initScaleProps()
+		@timeGrid.setRange(@renderRange)
+
+
+	getFallbackDuration: ->
+		@timeGrid.computeFallbackDuration()
 
 
 	# Rendering
@@ -176,7 +181,7 @@ class TimelineView extends View
 			scrollTime = @opt('scrollTime')
 			if scrollTime
 				scrollTime = moment.duration(scrollTime)
-				left = @timeGrid.dateToCoord(@start.clone().time(scrollTime)) # TODO: fix this for RTL
+				left = @timeGrid.dateToCoord(@activeRange.start.clone().time(scrollTime)) # TODO: fix this for RTL
 		{ left, top: 0 }
 
 
